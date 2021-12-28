@@ -1,0 +1,58 @@
+#!/bin/sh
+# Setup Git defaults
+
+# Create a ~/.gitignore in your user directory
+cd ~/
+touch .gitignore
+# Exclude bin and .metadata directories
+echo "bin" >> .gitignore
+echo ".metadata" >> .gitignore
+echo "*~" >> .gitignore
+echo "target/" >> .gitignore
+
+# Configure Git to use this file
+# as global .gitignore
+
+git config --global core.excludesfile ~/.gitignore
+git config --global branch.autosetuprebase always 
+
+echo alias upgrade='sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade' >> ~/.bashrc
+
+# create an executable command which allows to create pdf files from Latex files
+mkdir ~/bin
+cd ~/bin
+echo "pdflatex *.tex" > createpdf
+chmod 777 createpdf
+
+# Setup a Git alias to sync a repository
+
+git config --global alias.sync '!git pull && git add . -A && git commit -m "Update" && git push'
+
+
+# Include local bin folder into path
+echo "export PATH=$PATH:~/bin" >> .bashrc
+
+# get the latest software
+sudo apt-get update && upgrade
+
+# remove unnecessary lenses
+sudo apt-get autoremove unity-lens-music unity-lens-photos unity-lens-gwibber unity-lens-shopping unity-lens-video -y
+
+# install typical packages
+sudo apt-get install tree texlive-latex-recommended texlive-fonts-recommended texlive-latex-extra texlive-lang-german texlive-fonts-recommended vim okular -y
+sudo apt-get install keepassx shutter inkscape filezilla pdftk openjdk-8-jdk calibre xchat nautilus-open-terminal sound-juicer openjdk-8-source xournal maven -y
+
+# Install gnome-colorchooser to allow to set the 
+# tooltip color in Eclipse
+sudo apt-get install gnome-color-chooser -y
+
+# uninstall the Ubuntu webintegration
+sudo apt-get remove unity-webapps-common
+
+# install Dropbox indicator
+sudo apt-get install libappindicator1 -y
+
+# install 7zip support
+sudo apt-get install p7zip-full
+
+
